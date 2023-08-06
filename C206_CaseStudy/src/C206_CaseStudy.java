@@ -4,7 +4,8 @@ import java.time.format.DateTimeFormatter;
  
 public class C206_CaseStudy { 
     public static boolean loggedIn = false; 
-    public static User currentUser; 
+    public static User currentUser;
+
  
     public static void main(String[] args) { 
         ArrayList<User> userList = new ArrayList<>(); 
@@ -12,21 +13,25 @@ public class C206_CaseStudy {
         //Admin is Jame 
         userList.add(new User("Jame", "Jame@123", "jame123@gmail.com", "biker", true)); 
         userList.add(new User("Mary", "Mary@456", "mary456@gmail.com", "biker1", false)); 
-        userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false)); 
+        userList.add(new User("Paul", "Paul@789", "paul789@gmail.com", "biker2", false));
+        
+        ArrayList<Registration> registrations = new ArrayList<>();
+        registrations.add(new Registration("Paul","paul789@gmail.com","94562003","85643446",23));
+        
  
         int option = 0; 
-        while (option != 3) { 
+        while (option != 4) { 
             displayMenu(); 
             option = Helper.readInt("Enter an option > "); 
-            if (option == 1) { 
-                addUser(userList); 
-            } else if (option == 2) { 
+            if (option == 1) {
+            	addUser(userList);
+            } else if (option==2) {
                 if (login(userList)) { 
                     System.out.println("**** Account login successful ****"); 
                     if (currentUser.isAdmin()) { 
-                        adminMenu(userList); 
+                        adminMenu(userList,registrations); 
                     } else { 
-                        userMenu(userList); 
+                        userMenu(userList,registrations); 
                     } 
                 } else { 
                     System.out.println("Login unsuccessful."); 
@@ -39,8 +44,9 @@ public class C206_CaseStudy {
             } 
         } 
     } 
+    
  
-    public static void adminMenu(ArrayList<User> userList) { 
+    public static void adminMenu(ArrayList<User> userList,ArrayList<Registration> registrations) { 
         while (loggedIn) { 
             System.out.println(); 
             System.out.println("**** ADMIN MENU ****"); 
@@ -59,7 +65,10 @@ public class C206_CaseStudy {
             System.out.println("13. Add a new event"); 
             System.out.println("14. View all events"); 
             System.out.println("15. Delete an existing event"); 
-            System.out.println("16. Log out"); 
+            System.out.println("16. Add a new Registration");
+            System.out.println("17.View all existing Registration");
+            System.out.println("18.Delete existing Registration");
+            System.out.println("19.Quit");
  
             int choose = Helper.readInt("Enter an option > "); 
             if (choose == 1) { 
@@ -93,7 +102,14 @@ public class C206_CaseStudy {
                 // Implement method to view all events 
             } else if (choose == 15) {
 // Implement method to delete an existing event 
-            } else if (choose == 16) { 
+            }  else if (choose == 16) {
+				addRegistration(registrations,userList);
+            }  else if (choose == 17) {
+            	viewRegistration(registrations);            
+            }  else if (choose == 18) {
+            	deleteRegistration(registrations);
+            } 
+            else if (choose == 19) { 
                 System.out.println("Logged out successfully"); 
                 loggedIn = false; 
             } else { 
@@ -101,21 +117,29 @@ public class C206_CaseStudy {
             } 
         } 
     } 
- 
-    public static void userMenu(ArrayList<User> userList) { 
+
+
+	public static void userMenu(ArrayList<User> userList,ArrayList<Registration> registrations) { 
         while (loggedIn) { 
             System.out.println(); 
             System.out.println("**** USER MENU ****"); 
             System.out.println("1. View all users"); 
             System.out.println("2. Search users by name"); 
-            System.out.println("3. Log out"); 
+            System.out.println("3. Add registration for Bike event");
+            System.out.println("4. Delete an existing registration");
+            System.out.println("5. Log out"); 
+            
  
             int choose = Helper.readInt("Enter an option > "); 
             if (choose == 1) { 
                 viewUsers(userList); 
             } else if (choose == 2) { 
-                searchUser(userList); 
-            } else if (choose == 3) { 
+                searchUser(userList);
+            }else if(choose==3) {
+                addRegistration(registrations,userList);
+            }else if(choose==4){
+            	deleteRegistration(registrations);           	
+            } else if (choose == 5) { 
                 System.out.println("Logged out successfully"); 
                 loggedIn = false; 
             } else { 
@@ -123,8 +147,7 @@ public class C206_CaseStudy {
             } 
         } 
     } 
- 
-    public static boolean login(ArrayList<User> userList) { 
+	public static boolean login(ArrayList<User> userList) { 
         while (true) { 
             String email = Helper.readString("Enter Email address > "); 
             if (!validEmail(email)) { 
@@ -202,10 +225,26 @@ public class C206_CaseStudy {
         } 
         return false; 
     } 
+   
  
     public static boolean validPassword(String password) { 
         return password.length() >= 8; 
-    } 
+    }
+    public static  boolean register(ArrayList<User> userList, String name) {
+    	for (User user : userList) { 
+            if (user.getUsername().equalsIgnoreCase(name)) { 
+                return true;
+            }else {
+            	
+            }
+    	}
+		return false;
+    
+    }
+    	
+    	
+        
+   
  
     public static void viewUsers(ArrayList<User> userList) { 
         System.out.println(); 
@@ -254,4 +293,87 @@ public class C206_CaseStudy {
         } 
         System.out.println("User with the specified email address not found."); 
     } 
+    static void addRegistration(ArrayList<Registration> registrations,ArrayList<User> userList) {
+    	String N;
+    	String email;
+    	String C;
+    	String emerContact;
+    	 while (true) { 
+             N= Helper.readString("Enter Full Name > "); 
+             if (register(userList, N)) { 
+                 System.out.println("Enter a valid name"); 
+             } else {
+            	 break;
+             }
+    	 }
+    	
+    	while (true) { 
+            email = Helper.readString("Enter email address > "); 
+            if (!validEmail(email)) { 
+                System.out.println("Invalid email address! Please enter a valid email."); 
+            } else { 
+                break; 
+            }  
+        } 
+    	while (true) { 
+            C = Helper.readString("Enter  phone number > "); 
+            if (!validphone(C)) { 
+                System.out.println("Invalid Phone Number! phone number should have 8 digits."); 
+            }else {
+            	break;
+            }
+    	}
+    	while (true) { 
+            emerContact = Helper.readString("Enter a Emergency contact number > "); 
+            if (!validphone(emerContact)) { 
+                System.out.println("Invalid Phone Number! phone number should have 8 digits."); 
+            }else {
+            	break;
+            }
+    	}
+    	int A=Helper.readInt("Enter Your Age > ");
+    	registrations.add(new Registration(N,email,C,emerContact,A));
+    	System.out.println("Registration submitted successfully");
+    	
+    	 
+	}
+
+    private static void deleteRegistration(ArrayList<Registration> registrations) {
+    	String name = Helper.readString("Enter the Name of the user to delete > "); 
+    	for (int i = 0; i < registrations.size(); i++) { 
+            if (registrations.get(i).getName().equalsIgnoreCase(name)) { 
+                Registration userToDelete = registrations.get(i); 
+                System.out.println("User found:"); 
+                userToDelete.display(); 
+ 
+                boolean confirmDelete = Helper.readBoolean("Are you sure you want to delete this user? (true/false) > "); 
+                if (confirmDelete) { 
+                    registrations.remove(i); 
+                    System.out.println("User deleted successfully."); 
+                } else { 
+                    System.out.println("User deletion cancelled."); 
+                } 
+                return; 
+            } 
+        } 
+        System.out.println("User with the specified name not found."); 
+    } 
+		
+    private static void viewRegistration(ArrayList<Registration> registrations) {
+    	
+      String output = String.format("%-15s %-25s %-10s %-20s %-5s\n", "NAME", "EMAIL", "PHONE", "EMERGENCY CONTACT","AGE"); 
+         for (Registration register : registrations) { 
+             output += String.format("%-15s %-25s %-10s %-20s %-5d\n", register.getName(), register.getEmail(), 
+                     register.getContact(), register.getEmerContact(),register.getAge()); 
+         } 
+         System.out.println(output); 
+     } 
+    	
+    public static boolean validphone(String contact) { 
+        return contact.length()==8; 
+    }
+
+            
+   
+   
     }

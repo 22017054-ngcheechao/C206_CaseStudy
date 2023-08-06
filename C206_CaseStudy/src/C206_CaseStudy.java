@@ -300,7 +300,7 @@ public class C206_CaseStudy {
     	String emerContact;
     	 while (true) { 
              N= Helper.readString("Enter Full Name > "); 
-             if (register(userList, N)) { 
+             if (!register(userList, N)) { 
                  System.out.println("Enter a valid name"); 
              } else {
             	 break;
@@ -367,6 +367,7 @@ public class C206_CaseStudy {
                      register.getContact(), register.getEmerContact(),register.getAge()); 
          } 
          System.out.println(output); 
+         System.out.println("Total number of Registration are:"+registrations.size());
      } 
     	
     public static boolean validphone(String contact) { 

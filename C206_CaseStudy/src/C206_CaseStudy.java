@@ -124,6 +124,9 @@ public class C206_CaseStudy {
             System.out.println("3. Add registration for Bike event");
             System.out.println("4. Delete an existing registration");
             System.out.println("5. Log out");
+            System.out.println("10. Add a new discussion");
+            System.out.println("11. View all discussions");
+            System.out.println("12. Delete an existing discussion");
 
             int choose = Helper.readInt("Enter an option > ");
             if (choose == 1) {
@@ -134,6 +137,12 @@ public class C206_CaseStudy {
                 addRegistration(registrations, userList);
             } else if (choose == 4) {
                 deleteRegistration(registrations);
+            } else if (choose == 10) {
+                addDiscussion();
+            } else if (choose == 11) {
+                viewAllDiscussions();
+            } else if (choose == 12) {
+                deleteDiscussion();
             } else if (choose == 5) {
                 System.out.println("Logged out successfully");
                 loggedIn = false;
@@ -372,7 +381,7 @@ public class C206_CaseStudy {
                 System.out.println("User found:");
                 userToDelete.display();
 
-                boolean confirmDelete = Helper.readBoolean("Are you sure you want to delete this user? (true/false) > ");
+                boolean confirmDelete = Helper.readBoolean(" Are you sure you want to delete this user? (true/false) > ");
                 if (confirmDelete) {
                     registrations.remove(i);
                     System.out.println("User deleted successfully.");
@@ -380,8 +389,7 @@ public class C206_CaseStudy {
                     System.out.println("User deletion cancelled.");
                 }
                 return;
-            }
-        }
+            }}
         System.out.println("User with the specified name not found.");
     }
 
@@ -410,5 +418,4 @@ public class C206_CaseStudy {
             }
         }
         return false;
-    }
-}
+    }}

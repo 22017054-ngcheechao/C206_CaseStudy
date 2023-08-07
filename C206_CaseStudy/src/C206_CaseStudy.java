@@ -63,7 +63,7 @@ public class C206_CaseStudy {
             System.out.println("13. Add a new event");
             System.out.println("14. View all events");
             System.out.println("15. Delete an existing event");
-            System.out.println("16. Add a new Registration");
+            System.out.println("16. Add a new Registration for a biking event");
             System.out.println("17. View all existing Registration");
             System.out.println("18. Delete existing Registration");
             System.out.println("19. Quit");

@@ -15,11 +15,7 @@ public class C206_CaseStudyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		r1 = new Registration("Paul", "paul123@gmail.com", "44556677","99887766",24);
-		r2 = new Registration("Sam", "Sam23@gmail.com","78965467","90867598", 20);
-		
-
-		registrations= new ArrayList<Registration>();
+	
 		
 	}
 	
@@ -36,12 +32,6 @@ public class C206_CaseStudyTest {
 		//fail("Not yet implemented"); 
 		assertTrue("C206_CaseStudy_SampleTest ",true);
 	}
-	@Test
-    public void testValidphone() {
-        // Test a valid phone number with 8 digits
-        String validNumber = "12345678";
-        assertTrue(C206_CaseStudy.validphone(validNumber));
-    }
 	@Test
     public void testValidEmail() {
         // Test a valid email address

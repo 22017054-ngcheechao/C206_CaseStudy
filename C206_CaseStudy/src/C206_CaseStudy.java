@@ -370,7 +370,7 @@ public class C206_CaseStudy {
         }
         int A = Helper.readInt("Enter Your Age > ");
         registrations.add(new Registration(N, email, C, emerContact, A));
-        System.out.println("Registration submitted successfully.");
+        System.out.println("Registration for the event submitted successfully.");
     }
 
     private static void deleteRegistration(ArrayList<Registration> registrations) {
@@ -400,7 +400,7 @@ public class C206_CaseStudy {
                     register.getContact(), register.getEmerContact(), register.getAge());
         }
         System.out.println(output);
-        System.out.println("Total number of Registrations are: " + registrations.size());
+        System.out.println("Total number of Registrations for the event are: " + registrations.size());
     }
 
     public static boolean validPhone(String contact) {

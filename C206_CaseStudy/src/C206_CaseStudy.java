@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -66,7 +67,8 @@ public class C206_CaseStudy {
             System.out.println("16. Add a new Registration for a biking event");
             System.out.println("17. View all existing Registration");
             System.out.println("18. Delete existing Registration");
-            System.out.println("19. Quit");
+            System.out.println("19. Search an existing Registration");
+            System.out.println("20. Quit");
 
             int choose = Helper.readInt("Enter an option > ");
             if (choose == 1) {
@@ -101,12 +103,17 @@ public class C206_CaseStudy {
             } else if (choose == 15) {
                 // Implement method to delete an existing event
             } else if (choose == 16) {
-                addRegistration(registrations, userList);
+                addRegistration(registrations);
             } else if (choose == 17) {
-                viewRegistration(registrations);
+                viewRegistration(registrations, loggedIn, currentUser);
             } else if (choose == 18) {
                 deleteRegistration(registrations);
-            } else if (choose == 19) {
+            
+            }else if(choose==19) {
+            	searchRegistration(registrations);
+            }
+            
+            else if (choose == 20) {
                 System.out.println("Logged out successfully");
                 loggedIn = false;
             } else {
@@ -134,10 +141,11 @@ public class C206_CaseStudy {
             } else if (choose == 2) {
                 searchUser(userList);
             } else if (choose == 3) {
-                addRegistration(registrations, userList);
+                addRegistration(registrations);
             } else if (choose == 4) {
                 deleteRegistration(registrations);
-            } else if (choose == 10) {
+            }
+            else if (choose == 10) {
                 addDiscussion();
             } else if (choose == 11) {
                 viewAllDiscussions();
@@ -303,7 +311,6 @@ public class C206_CaseStudy {
             System.out.println("You need to be logged in to view discussions.");
         }
     }
-
     public static void deleteDiscussion() {
         if (loggedIn && currentUser.isAdmin()) {
             String topicToDelete = Helper.readString("Enter the topic of the discussion to delete: ");
@@ -329,20 +336,14 @@ public class C206_CaseStudy {
         }
     }
 
-    public static void addRegistration(ArrayList<Registration> registrations, ArrayList<User> userList) {
+   
+
+    public static void addRegistration(ArrayList<Registration> registrations) {
         String N;
         String email;
         String C;
         String emerContact;
-        while (true) {
             N = Helper.readString("Enter Full Name > ");
-            if (!register(userList, N)) {
-                System.out.println("Enter a valid name");
-            } else {
-                break;
-            }
-        }
-
         while (true) {
             email = Helper.readString("Enter email address > ");
             if (!validEmail(email)) {
@@ -369,14 +370,15 @@ public class C206_CaseStudy {
             }
         }
         int A = Helper.readInt("Enter Your Age > ");
-        registrations.add(new Registration(N, email, C, emerContact, A));
+        Registration r=new Registration(N, email, C, emerContact, A);
+        registrations.add(r);
+        
         System.out.println("Registration for the event submitted successfully.");
     }
-
-    private static void deleteRegistration(ArrayList<Registration> registrations) {
+    public static void deleteRegistration(ArrayList<Registration> registrations) {
         String name = Helper.readString("Enter the Name of the user to delete > ");
         for (int i = 0; i < registrations.size(); i++) {
-            if (registrations.get(i).getName().equalsIgnoreCase(name)) {
+            if (registrations.get(i).getName().toLowerCase().equalsIgnoreCase(name.toLowerCase())) {
                 Registration userToDelete = registrations.get(i);
                 System.out.println("User found:");
                 userToDelete.display();
@@ -392,16 +394,28 @@ public class C206_CaseStudy {
             }}
         System.out.println("User with the specified name not found.");
     }
-
-    private static void viewRegistration(ArrayList<Registration> registrations) {
-        String output = String.format("%-15s %-25s %-10s %-20s %-5s\n", "NAME", "EMAIL", "PHONE", "EMERGENCY CONTACT", "AGE");
-        for (Registration register : registrations) {
-            output += String.format("%-15s %-25s %-10s %-20s %-5d\n", register.getName(), register.getEmail(),
-                    register.getContact(), register.getEmerContact(), register.getAge());
-        }
-        System.out.println(output);
-        System.out.println("Total number of Registrations for the event are: " + registrations.size());
+  
+    private boolean confirmDelete() {
+    	Scanner scanner = new Scanner(System.in);
+    	boolean confirmDelete = Helper.readBoolean(" Are you sure you want to delete this user? (true/false) > ");
+    	return scanner.nextBoolean();
     }
+
+    public static void viewRegistration(ArrayList<Registration> registrations, boolean loggedIn, User currentUser) {
+    	if (loggedIn && currentUser.isAdmin()) {
+    		String output = String.format("%-15s %-25s %-10s %-20s %-5s\n", "NAME", "EMAIL", "PHONE", "EMERGENCY CONTACT", "AGE");
+            for (Registration register : registrations) {
+                output += String.format("%-15s %-25s %-10s %-20s %-5d\n", register.getName(), register.getEmail(),
+                        register.getContact(), register.getEmerContact(), register.getAge());
+            }
+            System.out.println(output);
+            System.out.println("Total number of Registrations for the event are: " + registrations.size());
+            
+    	
+    	}
+        
+    }
+    
 
     public static boolean validPhone(String contact) {
         return contact.length() == 8;
@@ -418,4 +432,27 @@ public class C206_CaseStudy {
             }
         }
         return false;
-    }}
+    }
+    
+
+	public static int calculateTotalRegistrations(ArrayList<Registration> registrations) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	public static void searchRegistration(ArrayList<Registration> registrations) {
+        boolean found = false;
+        String keyword = Helper.readString("Enter an alphabet to search in usernames > ");
+        String output = String.format("%-15s %-25s %-10s %-20s %-5s\n", "NAME", "EMAIL", "PHONE", "EMERGENCY CONTACT", "AGE");
+        for (Registration user : registrations) {
+            if (user.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                output += String.format("%-15s %-25s %-10s %-20s %-5d\n", user.getName(), user.getEmail(),user.getContact(), user.getEmerContact(),user.getAge());
+                found = true;
+            }
+        }
+        System.out.println(output);
+        if (!found) {
+            System.out.println("No users found with the specified alphabet in the registrationlist.");
+        }
+    }
+	}
+	

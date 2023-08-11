@@ -19,18 +19,32 @@ public class Registration {
     public String getName() {
         return name;
     }
-
+    public void setName(String name) {
+    	this.name=name;
+    }
     public String getEmail() {
         return email;
+    }
+    public void setEmail(String email) {
+    	this.email=email;
     }
     public String getContact() {
     	return contact;
     }
+    public void setContact(String Contact) {
+    	this.contact=contact;
+    }
     public String getEmerContact() {
     	return emerContact;
     }
+    public void setEmerContact(String emerContact) {
+    	this.emerContact=emerContact;
+    }
     public int getAge() {
     	return age;
+    }
+    public void setAge(int age) {
+    	this.age=age;
     }
 
 

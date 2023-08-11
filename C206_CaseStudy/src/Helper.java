@@ -242,4 +242,7 @@ public class Helper {
     return getDay(one) == getDay(two) && getMonth(one) == getMonth(two)
         && getYear(one) == getYear(two);
   }
+  private void SimulateUserInput(String input1, String input2) {
+      System.setIn(new java.io.ByteArrayInputStream((input1 + "\n" + input2 + "\n").getBytes()));
+  }
 }
